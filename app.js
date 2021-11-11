@@ -23,10 +23,11 @@ function addTodo(e) {
 	newTodo.innerText = todoInput.value;
 	//Save to local - do this last
 	//Save to local
-	saveLocalTodos(todoInput.value);
+
 	//
 	newTodo.classList.add("todo-item");
 	todoDiv.appendChild(newTodo);
+	saveLocalTodos(todoInput.value);
 	todoInput.value = "";
 	//Create Completed Button
 	const completedButton = document.createElement("button");
@@ -82,11 +83,14 @@ function filterTodo(e) {
 				} else {
 					todo.style.display = "none";
 				}
+				break;
 		}
 	});
 }
 
+
 function saveLocalTodos(todo) {
+	// Check - Are there things in the todos already?
 	let todos;
 	if (localStorage.getItem("todos") === null) {
 		todos = [];
@@ -94,17 +98,6 @@ function saveLocalTodos(todo) {
 		todos = JSON.parse(localStorage.getItem("todos"));
 	}
 	todos.push(todo);
-	localStorage.setItem("todos", JSON.stringify(todos));
-}
-function removeLocalTodos(todo) {
-	let todos;
-	if (localStorage.getItem("todos") === null) {
-		todos = [];
-	} else {
-		todos = JSON.parse(localStorage.getItem("todos"));
-	}
-	const todoIndex = todo.children[0].innerText;
-	todos.splice(todos.indexOf(todoIndex), 1);
 	localStorage.setItem("todos", JSON.stringify(todos));
 }
 
@@ -139,3 +132,17 @@ function getTodos() {
 		todoList.appendChild(todoDiv);
 	});
 }
+
+
+function removeLocalTodos(todo) {
+	let todos;
+	if (localStorage.getItem("todos") === null) {
+		todos = [];
+	} else {
+		todos = JSON.parse(localStorage.getItem("todos"));
+	}
+	const todoIndex = todo.children[0].innerText;
+	todos.splice(todos.indexOf(todoIndex), 1);
+	localStorage.setItem("todos", JSON.stringify(todos));
+}
+
